@@ -1,63 +1,93 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 // Initialize AOS
 AOS.init({
-    duration: 1500,
+  duration: 1500,
+});
+
+const mobileMenuButton = document.getElementById("mobile-menu-button");
+const mobileMenu = document.getElementById("mobile-menu");
+
+if (mobileMenuButton && mobileMenu) {
+  mobileMenuButton.addEventListener("click", () => {
+    mobileMenu.classList.toggle("hidden");
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loader = document.getElementById("loader");
+
+  function hideLoader() {
+    loader.style.opacity = "0";
+    loader.style.transition = "opacity 0.5s ease-out";
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 500);
+  }
+  setTimeout(hideLoader, 3000);
 });
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyA0HmfxViCsYRqNzI7CEQZW6wRou_XVs1c",
+  authDomain: "rc-sjcet.firebaseapp.com",
+  projectId: "rc-sjcet",
+  storageBucket: "rc-sjcet.appspot.com",
+  messagingSenderId: "533155614413",
+  appId: "1:533155614413:web:217d333825a33e2057a384",
+  measurementId: "G-Z5FT708XPC",
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-
-mobileMenuButton.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-});
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 function loadEvents() {
-    const eventsContainer = document.getElementById('events-container');
-    eventsContainer.innerHTML = '';
+  const eventsContainer = document.getElementById("events-container");
+  eventsContainer.innerHTML = "";
 
-    db.collection('events').get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            const event = doc.data();
-            const eventElement = document.createElement('div');
-            eventElement.className = 'bg-white rounded-lg shadow-md p-6';
-            eventElement.innerHTML = `
-                <svg class="h-12 w-12 text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <h3 class="text-xl font-semibold mb-2">${event.title}</h3>
-                <p class="text-gray-600 mb-2">${event.date}</p>
+  const eventsCollection = collection(db, "events");
+  getDocs(eventsCollection)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const event = doc.data();
+        const eventElement = document.createElement("div");
+        eventElement.className = "event-card"; 
+        eventElement.innerHTML = `
+                <div class="poster-container">
+                    <img src="${event.posterUrl}" alt="${event.title}" class="event-poster">
+                </div>
             `;
-            eventsContainer.appendChild(eventElement);
-        });
+        eventsContainer.appendChild(eventElement);
+      });
+    })
+    .catch((error) => {
+      console.error("Error loading events: ", error);
     });
 }
 loadEvents();
 
-const contactForm = document.querySelector('form');
-contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Thank you for your message. We will get back to you soon!');
-    this.reset();
+function populateExecom(execomMembers) {
+  const execomContainer = document.getElementById("execom-container");
+  execomMembers.forEach((member) => {
+    const memberElement = document.createElement("div");
+    memberElement.className = "bg-white rounded-lg shadow-md p-6 text-center";
+    memberElement.innerHTML = `
+            <img src="${member.image}" alt="${member.name}" class="w-24 h-24 rounded-full mx-auto mb-4">
+            <h3 class="text-xl font-semibold mb-2">${member.name}</h3>
+            <p class="text-gray-600">${member.position}</p>
+          `;
+    execomContainer.appendChild(memberElement);
+  });
+}
+
+const contactForm = document.querySelector("form");
+contactForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  alert("Thank you for your message. We will get back to you soon!");
+  this.reset();
 });

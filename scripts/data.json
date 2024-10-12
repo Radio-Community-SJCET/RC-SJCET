@@ -1,0 +1,19 @@
+{
+    "execom": [
+      {
+        "name": "John Doe",
+        "position": "President",
+        "image": "https://via.placeholder.com/150?text=John+Doe"
+      },
+      {
+        "name": "Jane Smith",
+        "position": "Vice President",
+        "image": "https://via.placeholder.com/150?text=Jane+Smith"
+      },
+      {
+        "name": "Mike Johnson",
+        "position": "Technical Head",
+        "image": "https://via.placeholder.com/150?text=Mike+Johnson"
+      }
+    ]
+  } 
