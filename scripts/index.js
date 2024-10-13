@@ -1,9 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
 // Initialize AOS
 AOS.init({
   duration: 1500,
@@ -51,17 +48,19 @@ function loadEvents() {
   eventsContainer.innerHTML = "";
 
   const eventsCollection = collection(db, "events");
-  getDocs(eventsCollection)
+  const eventsQuery = query(eventsCollection, orderBy("timestamp", "desc"), limit(8)); 
+
+  getDocs(eventsQuery)
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const event = doc.data();
         const eventElement = document.createElement("div");
-        eventElement.className = "event-card"; 
+        eventElement.className = "event-card";
         eventElement.innerHTML = `
-                <div class="poster-container">
-                    <img src="${event.posterUrl}" alt="${event.title}" class="event-poster">
-                </div>
-            `;
+          <div class="poster-container">
+            <img src="${event.posterUrl}" alt="${event.title}" class="event-poster">
+          </div>
+        `;
         eventsContainer.appendChild(eventElement);
       });
     })
@@ -69,6 +68,7 @@ function loadEvents() {
       console.error("Error loading events: ", error);
     });
 }
+
 loadEvents();
 
 function populateExecom(execomMembers) {

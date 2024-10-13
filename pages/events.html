@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/logo.png" type="image/x-icon" />
+    <title>Radio Community SJCET</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link href="../styles/events.css" rel="stylesheet" />
+  </head>
+  <body class="min-h-screen bg-gradient-to-b from-gray-100 to-white">
+    <!-- Loader -->
+    <div
+      class="loader-container fixed inset-0 flex items-center justify-center bg-white z-50"
+      id="loader"
+    >
+      <img
+        src="../assets/loader.png"
+        alt="Radio Community SJCET Logo"
+        class="loader"
+      />
+    </div>
+
+    <!-- Events Section -->
+    <section id="events" class="py-20">
+      <div class="container mx-auto px-6">
+        <h2
+          class="text-4xl font-bold text-center mb-12 text-gray-800"
+          data-aos="fade-up"
+        >
+          All Events
+        </h2>
+        <div
+          id="events-container"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+          data-aos="fade-up"
+        >
+          <!-- Event posters will be dynamically inserted here -->
+        </div>
+      </div>
+    </section>
+    <div class="flex justify-center mt-8">
+        <button
+          onclick="history.back()"
+          class="bg-blue-500 text-white font-bold py-2 px-6 rounded hover:bg-blue-800 transition duration-300 ease-in-out"
+        >
+          Go Back
+        </button>
+      </div>
+    <script type="module" src="../scripts/events.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </body>
+</html>
+
