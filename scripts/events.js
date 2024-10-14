@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // Initialize AOS
 AOS.init({
@@ -34,22 +34,24 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-function loadEvents() {
+  function loadEvents() {
     const eventsContainer = document.getElementById("events-container");
     eventsContainer.innerHTML = "";
   
     const eventsCollection = collection(db, "events");
-    getDocs(eventsCollection)
+    const eventsQuery = query(eventsCollection, orderBy("timestamp", "desc")); 
+  
+    getDocs(eventsQuery)
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const event = doc.data();
           const eventElement = document.createElement("div");
-          eventElement.className = "event-card"; 
+          eventElement.className = "event-card";
           eventElement.innerHTML = `
-                  <div class="poster-container">
-                      <img src="${event.posterUrl}" alt="${event.title}" class="event-poster">
-                  </div>
-              `;
+            <div class="poster-container">
+              <img src="${event.posterUrl}" alt="${event.title}" class="event-poster">
+            </div>
+          `;
           eventsContainer.appendChild(eventElement);
         });
       })
@@ -57,4 +59,5 @@ function loadEvents() {
         console.error("Error loading events: ", error);
       });
   }
+  
   loadEvents();

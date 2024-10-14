@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+
 // Initialize AOS
 AOS.init({
   duration: 1500,
@@ -85,9 +86,28 @@ function populateExecom(execomMembers) {
   });
 }
 
-const contactForm = document.querySelector("form");
-contactForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  alert("Thank you for your message. We will get back to you soon!");
-  this.reset();
+
+emailjs.init('3RV2Ed8Xk_93cwJJe');
+
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+  event.preventDefault(); 
+
+
+  const user_name = document.getElementById('user_name').value;
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+
+  emailjs.send('service_ro53zed', 'template_5uq1u8k', {
+    user_name: user_name,  
+    user_email: email,      
+    message: message     
+  })
+  .then(function(response) {
+    console.log('SUCCESS!', response.status, response.text);
+    alert('Message sent successfully!'); 
+  }, function(error) {
+    console.log('FAILED...', error); 
+    alert('Failed to send the message. Please try again.'); 
+  });
+  document.getElementById('contactForm').reset();
 });
