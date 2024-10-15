@@ -125,3 +125,79 @@ body {
     height: auto; /* The full poster remains visible */
   }
 }
+
+.execom-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 48px;
+  color: #1f2937;
+}
+
+.poster-section {
+  padding: 80px 0;
+}
+
+.poster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.poster-grid-center {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  justify-content: center;
+}
+
+.poster {
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.poster img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .poster-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .poster-grid-center {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .poster-grid, .poster-grid-center {
+      grid-template-columns: repeat(3, 1fr);
+  }
+
+  .poster-grid-center {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 66.67%; /* 2/3 of the container width */
+      margin-left: auto;
+      margin-right: auto;
+  }
+}
