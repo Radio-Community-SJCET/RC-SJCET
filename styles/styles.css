@@ -3,6 +3,8 @@ body {
   line-height: 1.5;
   margin: 0;
   padding: 0;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 .custom-shape-divider-bottom-1635688744 {
